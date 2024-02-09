@@ -1,4 +1,5 @@
 const { Book, User } = require('../models');
+import { signToken, AuthenticationError } from '../utils/auth';
 
 const resolvers = {
   Query: {
