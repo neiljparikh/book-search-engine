@@ -1,4 +1,5 @@
 const { Book, User } = require('../models');
+import { sign } from 'jsonwebtoken';
 import { signToken, AuthenticationError } from '../utils/auth';
 
 const resolvers = {
@@ -11,7 +12,8 @@ const resolvers = {
   Mutation: {
     createUser: async (parent, args) => {
       const newUser = await User.create(args);
-      return newUser;
+      const token = signToken(newUser);
+      return {newUser, token};
     },
     saveBook: async (parent, { _id, body}) => {
         const updatedUser = await User.findOneAndUpdate(
@@ -28,8 +30,10 @@ const resolvers = {
             { new: true }
           );
     },
-    login: async (parent, {_id, bookId} ) => {
-        const user = await User.findOne({ $or: [{ username: body.username }, { email: body.email }] });
+    login: async (parent, {username, email} ) => {
+        const user = await User.findOne({ $or: [{ username: username }, { email: email }] });
+        const token = signToken(user)
+        return {user, token}
        
     }
   },
