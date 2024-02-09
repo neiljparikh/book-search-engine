@@ -9,6 +9,15 @@ const typeDefs = `
 
   }
 
+input savedBook {
+    authors: [String]!
+    description: String!
+    bookId: String!
+    image: String
+    link: String
+    title: String!
+}
+
   type User {
     username: String!
     email: String!
@@ -26,8 +35,11 @@ const typeDefs = `
   }
 
   type Mutation {
-    createUser(username: String!, email: String!, password: String!): 
-    createVote(_id: String!, techNum: Int!): Matchup
+    createUser(username: String!, email: String!, password: String!): Auth
+    saveBook(savedBook): User
+    deleteBook(BookId: ID!): User
+    login(username: String!, email: String!, password: String!): Auth
+
   }
 `;
 

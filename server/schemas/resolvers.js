@@ -29,6 +29,7 @@ const resolvers = {
             { $pull: { savedBooks: { bookId: bookId } } },
             { new: true }
           );
+        return deleteUser
     },
     login: async (parent, {username, email} ) => {
         const user = await User.findOne({ $or: [{ username: username }, { email: email }] });
